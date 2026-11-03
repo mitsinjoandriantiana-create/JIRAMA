@@ -1,0 +1,12 @@
+[project]
+name = "fastapi-example"
+version = "0.1.0"
+description = "API de démonstration avec FastAPI"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi[standard]",
+]
+
+[tool.uv]
+package = false
