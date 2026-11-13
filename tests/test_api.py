@@ -12,6 +12,7 @@ from sqlalchemy.pool import StaticPool
 from src.database import Base, get_db
 from src.main import app
 from src.models import Consumption, Invoice, Meter, User
+from src.settings import settings
 
 
 @pytest.fixture
@@ -46,6 +47,13 @@ def register(
     assert response.status_code == 201
     result = response.json()
     return {"Authorization": f"Bearer {result['access_token']}"}, result["access_token"]
+
+
+def test_home_redirects_to_streamlit(client: TestClient) -> None:
+    response = client.get("/", follow_redirects=False)
+
+    assert response.status_code == 307
+    assert response.headers["location"] == settings.streamlit_url
 
 
 def test_invoice_payment_consumption_and_dashboard(client: TestClient) -> None:
